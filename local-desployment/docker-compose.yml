@@ -1,0 +1,34 @@
+version: '2'
+services:
+  helio-rest:
+    image: acimmino/helio-rest:latest
+    volumes: 
+      - type: volume
+        source: helio-db
+        target: /helio/app
+        volume: {}
+    ports:
+      - "4567:4567"
+
+  frontend:
+    image: emiliocrespoperan/helio-frontend:latest
+    depends_on:
+      - helio-rest
+    ports:
+      - "4201:80"
+      
+
+  playground:
+    image: emiliocrespoperan/helio-frontend:latest
+    depends_on:
+      - helio-rest
+    ports:
+      - "4202:80"
+    environment:
+      - HELIO_REST_HOST=http://localhost:4567
+      - HELIO_MODE=PLAYGROUND
+      
+volumes:
+  helio-db:
+    name: helio-db
+

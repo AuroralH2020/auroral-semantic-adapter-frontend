@@ -1,0 +1,61 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.footer-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.item-selected {
+  background-color: #37474f;
+  color: white;
+}
+
+.item-menu:hover {
+  background-color: #37474f;
+  color: white;
+}
+
+.item-menu {
+  background-color: #263238;
+  color: gray;
+}
+
+.header-item-menu {
+  color: gray;
+}
+
+.header-item-menu:hover {
+  color: white;
+}
+
+.header-item-selected { 
+  color: white;
+}
+
+
+
+.content-wrapper {
+  background-color: #f8f9fc;
+}
+

@@ -1,0 +1,78 @@
+<div class="container-fluid">
+
+    <div class="row pt-3 pb-3 mb-3 border-bottom" style="background-color: white">
+      <div class="col-12">
+        <h2 style="display: table-cell; vertical-align: middle;">
+          Playground tour{{ tutorialSelected ? ' / ' + sectionName + ' / ' + tutorialName : '' }}
+        </h2>
+      </div>
+    </div>
+
+    <div class="row mb-4 m-1" *ngIf="errorTutorialSelected">
+      <div class="col-12 alert-danger text-danger rounded p-3">
+        <h2>Error!</h2>
+        <pre class="text-wrap">The tutorial selected do not exists. Select a tutorial from the list.</pre>
+      </div>
+    </div>
+
+
+    <mat-card class="mt-3 pb-4 mb-5" *ngIf="!tutorialSections || tutorialSections.length == 0">
+      <mat-card-content>
+        <span style="margin: initial;">No tutorials found</span>
+      </mat-card-content>
+    </mat-card>
+
+  
+    <ng-container *ngIf="tutorialSections && tutorialSections.length > 0">
+      
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="tutorialSelected == null">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h2 style="margin: initial;">Tour list</h2>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <mat-accordion>
+            <mat-expansion-panel hideToggle *ngFor="let section of tutorialSections;" class="mat-elevation-z0 border">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <b>{{ section.name }}</b>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <mat-list role="list" *ngIf="section.child.length > 0">
+                
+                <ng-container *ngFor="let tutorial of section.child;">
+                  <a *ngIf="tutorialSelected && section.name == sectionName && tutorial.name == tutorialName"
+                    mat-list-item>
+                    <b>{{ tutorial.name }} (Current selected)</b>
+                  </a>
+                  <a *ngIf="!(tutorialSelected && section.name == sectionName && tutorial.name == tutorialName)"
+                    mat-list-item href="{{ '/tour/' + tutorial.path }}">
+                    {{ tutorial.name }}
+                  </a>
+                </ng-container>
+
+              </mat-list>
+  
+            </mat-expansion-panel>
+          </mat-accordion>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+  
+    </ng-container>
+  
+    <mat-card class="mt-3 pb-4 mb-5" *ngIf="tutorialSelected">
+      <mat-card-content>
+        <playground-template *ngIf="tutorialSelected"
+          [isTour]="true" [tutorialModel]="tutorialSelected">
+        </playground-template> 
+      </mat-card-content>
+    </mat-card>
+
+    
+  
+<div>
+   

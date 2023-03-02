@@ -1,0 +1,50 @@
+/* You can add global styles to this file, and also import other style files */
+
+//== Bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: #858796;
+  text-align: left;
+  background-color: #fff;
+}
+
+.success-btn {
+  background-color: #4caf50;
+  color: white;
+}
+.success-btn:hover {
+  background-color: #087f23;
+  color: white;
+}
+a {
+  text-decoration: none;
+}
+
+.info-btn {
+  background-color: #209CEE;
+  color: white;
+}
+.info-btn:hover {
+  background-color: #006ebb;
+  color: white;
+}
+
+.danger-btn {
+  background-color: #ee3f20;
+  color: white;
+}
+.danger-btn:hover {
+  background-color: #bd2b12;
+  color: white;
+}
+
+.btn-space-left {
+  margin-left: 10px !important;
+}
+
+
+

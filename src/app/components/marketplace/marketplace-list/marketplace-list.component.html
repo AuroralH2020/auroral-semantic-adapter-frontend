@@ -1,0 +1,88 @@
+<div class="container-fluid">
+
+  <div class="row pt-3 pb-3 mb-3 border-bottom" style="background-color: white">
+    <div class="col-7">
+      <h2 style="display: table-cell; vertical-align: middle;">Components installed</h2>
+    </div>
+    <div class="col-5" style="text-align: right">
+      <a mat-flat-button class="success-btn" (click)="create()">
+        <mat-icon matListIcon matLine>add</mat-icon> New component
+      </a>
+      <a mat-flat-button class="info-btn btn-space-left" (click)="search()">
+        <mat-icon matListIcon matLine>refresh</mat-icon> Refresh
+      </a>
+    </div>
+  </div>
+
+  
+<div class="row mb-4 m-1" *ngIf="notification">
+  <div class="col-12 alert-success text-success rounded p-2" *ngIf="notification.type == 'success'">
+    <h2>Success!</h2>
+    <pre class="text-wrap">{{ notification.data }}</pre>
+  </div>
+  <div class="col-12 alert-danger text-danger rounded p-2" *ngIf="notification.type == 'error'">
+    <h2>Error!</h2>
+    <pre class="text-wrap">{{ notification.data }}</pre>
+  </div>
+</div>
+
+
+
+<div class="row" *ngIf="error">
+  <div class="col-12">
+
+    <h2 class="mat-title text-danger">Error</h2>
+
+    <pre class="text-wrap alert-danger rounded p-2">{{ error }}</pre>
+  </div>
+</div>
+
+<div class="row mb-5">
+  <div class="col-4 mb-4" *ngFor="let component of componentsInstalled" (mouseover)="hover = component.clazz" (mouseleave)="hover = ''">
+
+    <mat-card [ngClass]="{'mat-elevation-z8': hover == component.clazz}">
+      <mat-card-title class="header-card {{ 'component-' + component.type | lowercase }}">
+        <mat-icon style="vertical-align: middle;">{{ iconTypes[component.type] }}</mat-icon>
+        <span style="vertical-align: bottom;" class="btn-space-left">{{ component.type }}</span>
+      </mat-card-title>
+
+      <mat-card-content>
+
+        <div class="row">
+          <div class="col-10">
+            <h2>{{ component.name }}</h2>
+          </div>
+          
+          <div class="col-2">
+            <a mat-button *ngIf="component.source.startsWith('./')" disabled="true"><mat-icon>delete</mat-icon></a>
+            <a mat-button *ngIf="!component.source.startsWith('./')" (click)="deleteComponent(component)"><mat-icon>delete</mat-icon></a>
+          </div>
+          
+        </div>
+
+
+        <div class="row">
+          <div class="col-8 col-xs-12 mb-3 text-wrap">
+            <span class="mat-card-subtitle">Class</span>
+            <span>{{ component.clazz }}</span>
+          </div>
+          
+          <div class="col-12">
+            <span class="mat-card-subtitle">Source</span>
+            <a matLine>{{ component.source }}</a>
+          </div>
+        </div>
+
+      </mat-card-content>
+
+      <mat-card-footer></mat-card-footer>
+    </mat-card>
+
+  </div>
+
+
+
+
+  </div>
+
+</div>

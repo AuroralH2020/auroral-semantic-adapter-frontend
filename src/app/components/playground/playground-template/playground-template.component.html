@@ -1,0 +1,87 @@
+<div class="row">
+
+  <div class="col-12 mb-3" *ngIf="tutorialModel">
+    <h2>Tutorial description</h2>
+    <div class="mt-4 mb-4" [innerHtml]="tutorialModel.description"></div>
+    <mat-accordion class="mt-4">
+      <mat-expansion-panel class="mat-elevation-z0 border"
+        style="background-color: white !important;">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <b>Results expected</b>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <pre>{{ tutorialModel.expected_result }}</pre>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </div>
+
+  <div class="col-12 mt-4">
+    <div class="form-group">
+      <h2 for="formControlMapping" *ngIf="tutorialModel == null">Mapping Area</h2>
+      <h2 for="formControlMapping" *ngIf="tutorialModel != null">Mapping Template</h2>
+
+      <div class="row">
+        <div class="col-4" *ngIf="needBuilder">
+            <mat-form-field appearance="outline" class="mb-3" style="width: 100%">
+              <mat-label>Builder</mat-label>
+              <mat-select [formControl]="builderControl" required>
+                <mat-option *ngFor="let type of builderTypes;" value="{{ type }}">{{ type }}</mat-option>
+              </mat-select>
+              <mat-hint>Select the builder to perform the mapping</mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="col-8" *ngIf="isTour">
+          <button mat-stroked-button (click)="resetTemplate()">
+            <mat-icon matListIcon matLine>replay</mat-icon> Reset template</button>
+          <button mat-stroked-button class="success-btn btn-space-left" (click)="solveTemplate()">
+            <mat-icon matListIcon matLine>emoji_objects</mat-icon> Solution</button>
+        </div>
+      </div>
+      
+    
+
+      <textarea class="form-control" id="formControlMapping"
+            placeholder="Type your awesome mapping..."
+            rows="12"
+            [formControl]="mappingControl">
+      </textarea>
+
+      <a mat-flat-button class="mt-4 success-btn" (click)="evaluateMapping()" [disabled]="loadingMapping">
+        <mat-icon matListIcon matLine>play_arrow</mat-icon> Run
+      </a>
+      
+      <!--
+      <ngs-code-editor [theme]="'vs'" [codeModel]="codeModel" [options]="null" (valueChanged)="onCodeChanges($event)"></ngs-code-editor>
+      -->
+    </div>
+
+  </div>
+
+  <div class="col-12 mt-4">
+    <div class="form-group">
+      <h2>Results obtained</h2>
+      <textarea class="form-control mb-1" disabled rows="12" [(ngModel)]="mappingResults"></textarea>
+      
+    </div>
+
+  </div>
+
+  <div class="col-12 mt-3">
+    <mat-progress-bar *ngIf="loadingMapping" style="height: 5px;" mode="indeterminate"></mat-progress-bar>
+
+    <mat-progress-bar *ngIf="mappingResultsSuccess != null" 
+        [ngClass]="{'success-progress' : mappingResultsSuccess, 'error-progress': !mappingResultsSuccess }"
+        mode="determinate" [value]="100"></mat-progress-bar>
+
+  </div>
+
+
+ 
+
+
+</div>
+

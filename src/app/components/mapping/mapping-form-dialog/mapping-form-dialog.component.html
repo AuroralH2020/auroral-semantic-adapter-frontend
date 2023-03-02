@@ -1,0 +1,102 @@
+<div class="row">
+  <div class="col-12">
+    <h2>New mapping</h2>
+  </div>
+
+  <div class="col-12">
+
+    <mat-stepper #stepper (selectionChange)="onStepChanged($event)">
+      <mat-step label="Fill out the mapping information" [stepControl]="firstFormStep"
+                errorMessage="{{ firstFormStep.controls['name'].invalid ? 'Name is required.' : firstFormStep.controls['mapping'].invalid ? 'Mapping is required' : '' }}">
+        <form [formGroup]="firstFormStep" class="mt-4" [style.fontSize.px]="fontSizeControl.value > 20 ? 20 : fontSizeControl.value < 10 ? 10 : fontSizeControl.value">
+
+          <div class="row">
+
+            <div class="col-12 mb-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Font size</mat-label>
+                <input matInput type="number" placeholder="Ex. 16" [formControl]="fontSizeControl" min="10" max="20">
+                <span matSuffix>px</span>
+                <mat-hint>Select the form visualization size</mat-hint>
+                <mat-error *ngIf="fontSizeControl.invalid">Size must be between 10px and 20px</mat-error>
+              </mat-form-field>
+            </div>
+
+ 
+            <div class="col-6 mb-3">
+              <mat-form-field appearance="outline" style="width: 100%">
+                <mat-label>Mapping name</mat-label>
+                <input matInput placeholder="Type the mapping name" formControlName="name" required>
+                <mat-hint>Type the mapping name</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-6 mb-3">
+              <mat-form-field appearance="outline" style="width: 100%">
+                <mat-label>Builder</mat-label>
+                <mat-select formControlName="builder" required>
+                  <mat-option *ngFor="let type of builderTypes;" value="{{ type }}">{{ type }}</mat-option>
+                </mat-select>
+                <mat-hint>Select the builder to perform the mapping</mat-hint>
+              </mat-form-field>
+            </div>
+
+
+            <div class="col-12 mb-5">
+              <mat-form-field appearance="outline" style="width: 100%">
+                <mat-label>Mapping template</mat-label>
+                <textarea matNativeControl placeholder="Type your mapping" rows="15" formControlName="mapping" required></textarea>
+                <mat-hint>Type the mapping details</mat-hint>
+              </mat-form-field>
+            </div>
+
+
+          </div>
+
+
+          <div>
+            <button mat-flat-button matStepperNext class="btn info-btn">Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step label="Test your mapping" [optional]="true">
+
+        <div class="row mt-4 mb-5">
+          <div class="col-12">
+            <playground-template [disabledArea]="true" [needBuilder]="false" [mappingId]="mappingId" [builder]="builder" [mapping]="mapping"></playground-template>
+          </div>
+        </div>
+
+
+        <div>
+          <button mat-stroked-button matStepperPrevious>Back</button>
+          <button mat-flat-button matStepperNext class="btn info-btn btn-space-left">Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step label="Done">
+
+        <div class="row mt-4">
+          <div class="col-12 mb-3" *ngIf="errorLastStep || !firstFormStep.valid">
+            <pre class="text-wrap alert-danger rounded p-2">{{ errorLastStep != null ? errorLastStep : 'Error: Check the mapping information before saving.' }}</pre>
+          </div>
+
+          <div class="col-12 mb-5" style="text-align: center">
+            <button mat-stroked-button matStepperPrevious>Back</button>
+            <a mat-flat-button class="success-btn btn-space-left" [disabled]="!firstFormStep.valid || disableButton" (click)="saveMapping()">Save mapping</a>
+          </div>
+        </div>
+
+      </mat-step>
+
+      <ng-template matStepperIcon="phone">
+        <mat-icon>call_end</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="chat">
+        <mat-icon>forum</mat-icon>
+      </ng-template>
+    </mat-stepper>
+
+  </div>
+
+</div>

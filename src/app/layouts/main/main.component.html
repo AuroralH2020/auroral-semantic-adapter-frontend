@@ -1,0 +1,98 @@
+
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false"
+      style="background-color: #263238; color: white">
+    <mat-toolbar>
+      <img class="img-fluid mt-5 rounded mx-auto d-block" style="height: 60px" src="assets/img/helio.png" />
+    </mat-toolbar>
+
+    <mat-nav-list class="mt-5">
+
+      <ng-container *ngFor="let item of optionsMenu">
+
+        <a *ngIf="item.child.length == 0"
+            routerLink="{{ item.uri }}"
+            (click)="drawer.mode == 'over' ? drawer.close() : ''">
+            <mat-list-item [ngClass]="{
+              'item-selected': sectionTitle === item.title,
+              'item-menu': sectionTitle != item.title }">
+          
+              <mat-icon matListIcon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+              <span style="margin-left: 10px">{{ item.title }}</span>
+
+            </mat-list-item>
+        </a>
+
+
+
+        <mat-expansion-panel *ngIf="item.child.length > 0" [expanded]="sectionTitle === item.title"
+          class="mat-elevation-z0" dense [ngClass]="{
+            'item-selected': sectionTitle === item.title,
+            'item-menu': sectionTitle != item.title }">
+          
+          <mat-expansion-panel-header>
+            <mat-panel-title [ngClass]="{
+              'header-item-selected': sectionTitle === item.title,
+              'header-item-menu': sectionTitle != item.title }">
+
+                <mat-icon matListIcon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+                <span style="margin-left: 10px">{{ item.title }}</span>
+
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          
+
+          <mat-nav-list class="rounded">
+
+            <mat-list-item *ngFor="let subItem of item.child"
+              style="background-color: #455a64; color: white;"
+              [ngClass]="{
+                  'item-selected': sectionTitle === item.title,
+                  'item-menu': sectionTitle != item.title }">
+
+              <a matLine routerLink="{{ subItem.uri }}" (click)="drawer.mode == 'over' ? drawer.close() : ''">{{ subItem.title }}</a>
+
+            </mat-list-item>
+
+
+          </mat-nav-list>
+
+        </mat-expansion-panel>
+
+
+
+      </ng-container>
+
+    </mat-nav-list>
+
+    <div class="footer-container"><app-footer></app-footer></div>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+    <mat-toolbar style="background-color: #209CEE; color: white" *ngIf="drawer.mode == 'over'">
+      <a
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </a>
+      <span>{{ sectionTitle }}</span>
+      <span class="example-spacer"></span>
+
+    </mat-toolbar>
+
+    <div class="content-wrapper">
+        <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
